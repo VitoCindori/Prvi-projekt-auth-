@@ -25,6 +25,18 @@ app.get('/dbtest', async (req, res) => {
   }
 });
 
+app.get('/info/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const r = await pool.query('SELECT * FROM passes WHERE id = $1', [id]);
+        res.json(r.rows[0]);
+    } catch (e){
+        if(r = null){
+            res.status(404).send('Pass not found');
+        }
+    }
+});
+
 app.listen(port, () => {
   console.log(`Server radi na portu ${port}`);
 });
