@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 
 app.get('/dbtest', async (req, res) => {
   try {
-    const r = await pool.query('SELECT NOW()');
+    const r = await pool.query('SELECT * FROM passes');
     res.json(r.rows[0]);
   } catch (e) {
     res.status(500).send(e.message);
