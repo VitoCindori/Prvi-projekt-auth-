@@ -31,8 +31,8 @@ app.get('/info/:id', async (req, res) => {
         const r = await pool.query('SELECT * FROM passes WHERE id = $1', [id]);
         res.json(r.rows[0]);
     } catch (e){
-        if(r = null){
-            res.status(404).send('Pass not found');
+        if(r.rows.length === 0){
+            res.status(404).send('Pass not found'); //Nije null vidi kasnije
         }
     }
 });
