@@ -10,10 +10,48 @@
 
     <p>Broj passova: <%= total %> </p>
     <p>Broj aktivnih passova: <%= active %> </p>
+    
     <% if (loggedIn) { %>
     <a href="/logout">Odjava</a>
+
+    <h2>Pregled propusnica</h2>
+    <% if (passes.length === 0) { %>
+      <p>Nema propusnica.</p>
     <% } else { %>
+      <table border="1" cellpadding="6">
+        <thead>
+          <tr>
+            <th>Ime i prezime</th>
+            <th>Dokument</th>
+            <th>Izdana</th>
+            <th>Status</th>
+            <th>Akcije</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% passes.forEach(function (p) { %>
+            <tr>
+              <td><%= p.name %></td>
+              <td><%= p.document %></td>
+              <td><%= new Date(p.issued_at).toISOString() %></td>
+              <td><%= p.status %></td>
+              <td>
+                <% if (p.status === 'ACTIVE') { %>
+                  <form method="POST" action="/manage/<%= p.id %>/cancel" style="display:inline">
+                    <button type="submit">Poništi</button>
+                  </form>
+                <% } %>
+                <form method="POST" action="/manage/<%= p.id %>/delete" style="display:inline">
+                  <button type="submit">Obriši</button>
+                </form>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    <% } %>
+  <% } else { %>
     <a href="/login">Prijava</a>
-<% } %>
+  <% } %>
 </body>
 </html>
